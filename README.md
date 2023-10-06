@@ -1,106 +1,79 @@
-# Styled React Boilerplate ⚛️ 💅
+# Skapa komponenter med Styled-components och Props
 
-> Minimal & Modern Boilerplate for building apps with React & styled-components
+Styled-components är ett kraftfullt bibliotek för att skapa komponenter med hjälp av CSS i JavaScript. Du kan också använda props för att dynamiskt ändra stilen på dina komponenter. Här är en steg-för-steg-guide:
 
-[![Build Status](https://travis-ci.org/xxczaki/styled-react-boilerplate.svg?branch=master)](https://travis-ci.org/xxczaki/styled-react-boilerplate)
-[![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/xojs/xo)
-[![style: styled-components](https://img.shields.io/badge/style-%F0%9F%92%85%20styled--components-orange.svg?colorB=daa357&colorA=db748e)](https://github.com/styled-components/styled-components)
+## Steg 1: Installation
 
-[**Demo Site**](https://styled-react-boilerplate.now.sh) •
-[**FAQ**](#faq)
+Först och främst måste du installera Styled-components i ditt projekt. Du kan använda npm eller yarn:
 
----
-
-![](https://lighthouse.now.sh/?perf=100&pwa=100&a11y=100&bp=100&seo=100)
-
-## Highlights
-
-- Less complex than [create-react-app](https://github.com/facebook/create-react-app)
-- Features styled-components
-- Uses React Hooks
-- Includes optimized Webpack & Babel configuration
-- Perfect Lighthouse score
-- Non-blocking CSS & fonts loading
-- Friendly errors & warnings
-- Ensures clean code with xo & stylelint
-- Normalizes default browser style with modern-normalize
-- HTML template with social media meta tags
-- Targets the latest browsers
-- Works offline
-- Preconfigured React Refresh using [react-refresh-webpack-plugin](https://github.com/pmmmwh/react-refresh-webpack-plugin)
-
-## File Tree
 ```bash
-├── public                # Folder for static assets
-│   ├── favicon.png       # Favicon
-│   └── index.html        # HTML template
-├── src                   # Main folder
-│   ├── components        # Subfolder with components
-│   │   ├── button.js
-│   │   └── container.js
-│   │   └── counter.js
-│   │   └── header.js
-│   │   └── image.js
-│   └── app.js            # Main page file
-│   └── index.js          # React DOM, service worker config
-├── webpack.config.js     # Webpack config
-├── babel.config.js       # Babel config
+npm install styled-components
 ```
 
-## Usage
-```bash
-# Install dependencies
+## Steg 2: Importera Styled-components
 
- $ npm install
+Importera Styled-components i den fil där du planerar att skapa dina komponenter:
 
-# Start webpack-dev-server at port 8080
-
- $ npm start
-
-# Run linters
-
- $ npm test
-
-# Build app for production (gets output in the 'dist' directory)
-
- $ npm run build
+```javascript
+import styled from 'styled-components';
 ```
 
-## FAQ
+## Steg 3: Skapa en komponent
 
-### How to deploy my app?
+Skapa en ny komponent genom att använda `styled` funktionen vi just importerat följt av `.` och valfritt html-element. Här är ett exempel på en enkel knappkomponent:
 
-I recommend to use either [Vercel](https://vercel.com) or [Netlify](https://netlify.com) for hosting your site.
+```javascript
+# components/styled-components
+import styled from 'styled-components';
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/project?template=https://github.com/xxczaki/styled-react-boilerplate)
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/xxczaki/styled-react-boilerplate)
-
-### How to add & use static assets (ex. images)?
-
-Place them in the `public` directory in the root of the project. You can then use them like in the example below:
-
-```js
-// Import files from the `public` directory
-import imgSrc from '../../public/favicon.png';
-
-// Then you can reference it like so:
-const Image = () => (
-	<img src={imgSrc} alt="⚡"/>
-);
+export const Button = styled.button`
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+`;
 ```
 
-Check out the [`Image` component](src/components/image.js) for a live example.
+## Steg 4: Använd komponenten
 
-## TODO
+Du kan nu använda din nya Style:ade knappkomponent i din applikation:
 
-- [x] PWA
-- [x] Testing
-- [ ] module & nomodule support
+```jsx
+import {Button} from './components/styled-components'
 
-## Related
+export default function App() {
+  return (
+    <div>
+      <Button>Default Button</Button>
+    </div>
+  );
+}
+```
 
-- [static-webpack-boilerplate](https://github.com/xxczaki/static-webpack-boilerplate)
+## Steg 5: Använd Props
 
-### License
+För att använda props för att ändra stilen på din komponent, kan du enkelt göra det genom att interpolera props i ditt styled-component. Till exempel, om du vill ändra bakgrundsfärgen baserat på en `disabled` props vara eller inte vara (obs, icke standard attribut för html-element måste anges med $-tecken tex `<Button $primary >`):
 
-MIT
+```javascript
+import styled from 'styled-components'
+export const Button = styled.button`
+    background-color: ${(props) => (props.primary ? '#007bff' : '#ccc')};
+    color: ${(props) => (props.primary ? '#fff' : '#111')};
+    padding: 10px 20px;
+    border: none;
+    cursor: ${(props) => (props.disabled ? 'pointer' : 'default')};
+    border-radius: 5px;
+`
+```
+
+Nu kan du använda din knappkomponent med olika bakgrundsfärger beroende på `primary` prop:
+
+```
+javascriptCopy code
+<Button primary>Primary Button</Button>
+<Button>Secondary Button</Button>
+```
+
+Detta är en grundläggande översikt över hur du skapar komponenter med Styled-components och använder props för att ändra deras utseende. Du kan utforska mer avancerade funktioner och stilmöjligheter i Styled-components när du känner dig bekväm med grunderna.
